@@ -1,3 +1,5 @@
+[![Build status][appveyor-badge]][appveyor-build]
+[![PowerShell Gallery][psgallery-badge]][psgallery]
 # AzSpeedTest
 
 ## Overview
@@ -74,3 +76,8 @@ Maximum      : 296
 Average      : 38.32
 Minimum      : 31
 ```
+
+[appveyor-badge]: https://ci.appveyor.com/api/projects/status/pc9tyep74esefx5r?svg=true
+[appveyor-build]: https://ci.appveyor.com/project/devblackops/azspeedtest
+[psgallery-badge]: https://img.shields.io/powershellgallery/dt/AzSpeedTest.svg
+[psgallery]: https://www.powershellgallery.com/packages/AzSpeedTest
