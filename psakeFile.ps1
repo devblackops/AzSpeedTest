@@ -4,8 +4,8 @@ properties {
         $projectRoot = $PSScriptRoot
     }
 
-    $sut = "$projectRoot\$env:BHProjectName"
-    $tests = "$projectRoot\Tests"
+    $sut = Join-Path $projectRoot $env:BHProjectName
+    $tests = Join-Path $projectRoot Tests
 
     $psVersion = $PSVersionTable.PSVersion.Major
 }
@@ -39,3 +39,18 @@ task Pester -Depends Init {
         Invoke-Pester -Path $tests -PassThru -EnableExit
     }
 } -description 'Run Pester tests'
+
+task ExportFunctions {
+    $functions = Get-ChildItem -Path (Join-Path $sut Public) -Filter '*.ps1' -File
+    Update-ModuleManifest -Path $env:BHPSModuleManifest -FunctionsToExport $functions.BaseName
+}
+
+task Publish -depends Test, ExportFunctions {
+    $version = (Import-PowerShellDataFile -Path $env:BHPSModuleManifest).ModuleVersion
+
+    assert {
+        -not (Find-Module -Name $env:BHProjectName -RequiredVersion $version -Repository PSGallery)
+    } -failureMessage "Version [$version] is already published to the gallery. Bump the version before publishing."
+
+    Publish-Module -Path $env:BHModulePath -NuGetApiKey '$env:PSGalleryApiKey' -Repository PSGallery -Verbose -WhatIf
+}
