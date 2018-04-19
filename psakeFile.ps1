@@ -71,5 +71,5 @@ task Publish -depends Test, ExportFunctions {
         -not (Find-Module -Name $env:BHProjectName -RequiredVersion $version -Repository PSGallery)
     } -failureMessage "Version [$version] is already published to the gallery. Bump the version before publishing."
 
-    Publish-Module -Path $env:BHModulePath -NuGetApiKey '$env:PSGalleryApiKey' -Repository PSGallery -Verbose -WhatIf
+    Publish-Module -Path $env:BHModulePath -NuGetApiKey $env:PSGalleryApiKey -Repository PSGallery -Verbose
 }
