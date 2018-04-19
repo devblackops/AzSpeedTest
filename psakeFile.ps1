@@ -30,14 +30,33 @@ task Analyze -Depends Init {
 
 task Pester -Depends Init {
     if(-not $ENV:BHProjectPath) {
-        Set-BuildEnvironment -Path $PSScriptRoot\..
+        Set-BuildEnvironment -Path $PSScriptRoot/..
     }
     Remove-Module $ENV:BHProjectName -ErrorAction SilentlyContinue
     Import-Module (Join-Path $ENV:BHProjectPath $ENV:BHProjectName) -Force
 
-    if (Test-Path -Path $tests) {
-        Invoke-Pester -Path $tests -PassThru -EnableExit
+    $testResultsPath = Join-Path $PSScriptRoot testResults.xml
+    $pesterParams = @{
+        Path         = './Tests'
+        OutputFile   = $testResultsPath
+        OutputFormat = 'NUnitXml'
+        PassThru     = $true
+        PesterOption = @{
+            IncludeVSCodeMarker = $true
+        }
     }
+    $testResults = Invoke-Pester @pesterParams
+
+    # Upload test artifacts to AppVeyor
+    if ($env:APPVEYOR_JOB_ID) {
+        $wc = New-Object 'System.Net.WebClient'
+        $wc.UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", $testResultsPath)
+    }
+
+    if ($testResults.FailedCount -gt 0) {
+        throw "$($testResults.FailedCount) tests failed!"
+    }
+
 } -description 'Run Pester tests'
 
 task ExportFunctions {
