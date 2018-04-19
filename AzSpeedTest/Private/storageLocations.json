@@ -1,0 +1,137 @@
+[
+  {
+    "Name": "azspeedc541216f",
+    "Location": "eastus",
+    "TestUri": "https://azspeedc541216f.blob.core.windows.net/speedtest/test.txt"
+  },
+  {
+    "Name": "azspeed64312428",
+    "Location": "eastus2",
+    "TestUri": "https://azspeed64312428.blob.core.windows.net/speedtest/test.txt"
+  },
+  {
+    "Name": "azspeed70882b17",
+    "Location": "westus",
+    "TestUri": "https://azspeed70882b17.blob.core.windows.net/speedtest/test.txt"
+  },
+  {
+    "Name": "azspeedb0470181",
+    "Location": "westeurope",
+    "TestUri": "https://azspeedb0470181.blob.core.windows.net/speedtest/test.txt"
+  },
+  {
+    "Name": "azspeed2db4aadb",
+    "Location": "eastasia",
+    "TestUri": "https://azspeed2db4aadb.blob.core.windows.net/speedtest/test.txt"
+  },
+  {
+    "Name": "azspeedf98b06a3",
+    "Location": "southeastasia",
+    "TestUri": "https://azspeedf98b06a3.blob.core.windows.net/speedtest/test.txt"
+  },
+  {
+    "Name": "azspeed0709e1e8",
+    "Location": "japaneast",
+    "TestUri": "https://azspeed0709e1e8.blob.core.windows.net/speedtest/test.txt"
+  },
+  {
+    "Name": "azspeed620103f6",
+    "Location": "japanwest",
+    "TestUri": "https://azspeed620103f6.blob.core.windows.net/speedtest/test.txt"
+  },
+  {
+    "Name": "azspeede5c24d56",
+    "Location": "northcentralus",
+    "TestUri": "https://azspeede5c24d56.blob.core.windows.net/speedtest/test.txt"
+  },
+  {
+    "Name": "azspeed16e65a8d",
+    "Location": "southcentralus",
+    "TestUri": "https://azspeed16e65a8d.blob.core.windows.net/speedtest/test.txt"
+  },
+  {
+    "Name": "azspeed71d4366b",
+    "Location": "centralus",
+    "TestUri": "https://azspeed71d4366b.blob.core.windows.net/speedtest/test.txt"
+  },
+  {
+    "Name": "azspeed3fb3ae46",
+    "Location": "northeurope",
+    "TestUri": "https://azspeed3fb3ae46.blob.core.windows.net/speedtest/test.txt"
+  },
+  {
+    "Name": "azspeed00d7731b",
+    "Location": "brazilsouth",
+    "TestUri": "https://azspeed00d7731b.blob.core.windows.net/speedtest/test.txt"
+  },
+  {
+    "Name": "azspeedf9b9cf7b",
+    "Location": "australiaeast",
+    "TestUri": "https://azspeedf9b9cf7b.blob.core.windows.net/speedtest/test.txt"
+  },
+  {
+    "Name": "azspeed6de9e78c",
+    "Location": "australiasoutheast",
+    "TestUri": "https://azspeed6de9e78c.blob.core.windows.net/speedtest/test.txt"
+  },
+  {
+    "Name": "azspeedc3d86a56",
+    "Location": "southindia",
+    "TestUri": "https://azspeedc3d86a56.blob.core.windows.net/speedtest/test.txt"
+  },
+  {
+    "Name": "azspeed572373eb",
+    "Location": "centralindia",
+    "TestUri": "https://azspeed572373eb.blob.core.windows.net/speedtest/test.txt"
+  },
+  {
+    "Name": "azspeed9d82cb98",
+    "Location": "westindia",
+    "TestUri": "https://azspeed9d82cb98.blob.core.windows.net/speedtest/test.txt"
+  },
+  {
+    "Name": "azspeed994c43ca",
+    "Location": "canadaeast",
+    "TestUri": "https://azspeed994c43ca.blob.core.windows.net/speedtest/test.txt"
+  },
+  {
+    "Name": "azspeed8ea3f486",
+    "Location": "canadacentral",
+    "TestUri": "https://azspeed8ea3f486.blob.core.windows.net/speedtest/test.txt"
+  },
+  {
+    "Name": "azspeeda214ca91",
+    "Location": "westus2",
+    "TestUri": "https://azspeeda214ca91.blob.core.windows.net/speedtest/test.txt"
+  },
+  {
+    "Name": "azspeed59443e0a",
+    "Location": "westcentralus",
+    "TestUri": "https://azspeed59443e0a.blob.core.windows.net/speedtest/test.txt"
+  },
+  {
+    "Name": "azspeed8b7b8dfc",
+    "Location": "uksouth",
+    "TestUri": "https://azspeed8b7b8dfc.blob.core.windows.net/speedtest/test.txt"
+  },
+  {
+    "Name": "azspeed768b0dbb",
+    "Location": "ukwest",
+    "TestUri": "https://azspeed768b0dbb.blob.core.windows.net/speedtest/test.txt"
+  },
+  {
+    "Name": "azspeed93fe98a9",
+    "Location": "koreacentral",
+    "TestUri": "https://azspeed93fe98a9.blob.core.windows.net/speedtest/test.txt"
+  },
+  {
+    "Name": "azspeedeec98955",
+    "Location": "koreasouth",
+    "TestUri": "https://azspeedeec98955.blob.core.windows.net/speedtest/test.txt"
+  },
+  {
+    "Name": "azspeed5f3eb333",
+    "Location": "francecentral",
+    "TestUri": "https://azspeed5f3eb333.blob.core.windows.net/speedtest/test.txt"
+  }
+]
