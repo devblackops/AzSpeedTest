@@ -11,7 +11,7 @@ Get-PackageProvider -Name Nuget -ForceBootstrap | Out-Null
 Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
 
 if (-not (Get-Module -Name PSDepend -ListAvailable)) {
-    Install-module -Name PSDepend -Repository PSGallery
+    Install-module -Name PSDepend -Repository PSGallery -Scope CurrentUser
 }
 Import-Module -Name PSDepend -ErrorAction Stop
 Invoke-PSDepend -Path .\requirements.psd1 -Install -Import -Force > $null
