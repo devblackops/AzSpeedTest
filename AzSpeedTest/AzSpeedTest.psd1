@@ -20,10 +20,10 @@
     PrivateData       = @{
         PSData = @{
             Tags = @('PSEdition_Core', 'Azure', 'Speed', 'Test')
-            # LicenseUri = ''
-            # ProjectUri = ''
+            LicenseUri = 'https://raw.githubusercontent.com/devblackops/AzSpeedTest/master/LICENSE'
+            ProjectUri = 'https://github.com/devblackops/AzSpeedTest'
             # IconUri = ''
-            # ReleaseNotes = ''
+            ReleaseNotes = 'https://raw.githubusercontent.com/devblackops/AzSpeedTest/master/CHANGELOG.md'
         }
     }
 }
