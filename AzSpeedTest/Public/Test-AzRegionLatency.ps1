@@ -97,12 +97,10 @@ function Test-AzRegionLatency {
                 $stopwatch = [System.Diagnostics.Stopwatch]::new()
 
                 $iwrParams = @{
-                    Uri     = $testUri
-                    Verbose = $false
-                    Debug   = $false
-                }
-                if ($PSVersionTable.PSVersion.Major -lt 6) {
-                    $iwrParams.UseBasicParsing = $true
+                    Uri             = $testUri
+                    Verbose         = $false
+                    Debug           = $false
+                    UseBasicParsing = $true
                 }
 
                 $interationTimes = [System.Collections.ArrayList]::new()
@@ -145,11 +143,9 @@ function Test-AzRegionLatency {
                 $regionResult.TotalTime = $totalRegionTestTime
                 $regionResult.RawResults = $interationTimes
                 [PSCustomObject]$regionResult
-            }
-            catch {
+            } catch {
                 Write-Error -Message "Failed to test region [$testRegion]" -Exception $_
-            }
-            finally {
+            } finally {
                 $regionsTested++
             }
         }
