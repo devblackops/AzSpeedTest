@@ -119,15 +119,14 @@ function Test-AzRegionLatency {
                     $ProgressPreference = 'SilentlyContinue'
                     Invoke-WebRequest @iwrParams > $null
                     $ProgressPreference = $origProgressPref
+                    $stopwatch.Stop()
 
                     if ($DelaySeconds) { Start-Sleep -Seconds $DelaySeconds }
                     if ($DelayMilliseconds) { Start-Sleep -Milliseconds $DelayMilliseconds }
 
-                    $stopwatch.Stop()
-
                     $iterationResult = [PSCustomObject]@{
                         PSTypeName = 'AzSpeedTestIterationResult'
-                        Time       = Get-Date
+                        Time       = [DateTime]::Now
                         Timespan   = $stopwatch.Elapsed
                         LatencyMS  = $stopwatch.ElapsedMilliseconds
                     }
@@ -135,7 +134,7 @@ function Test-AzRegionLatency {
 
                     $stopwatch.Reset()
                 }
-                $regionStopTime = Get-Date
+                $regionStopTime = [DateTime]::Now
                 $totalRegionTestTime = $regionStopTime - $regionStartTime
                 $regionResult.Maximum = ($interationTimes | Measure-Object -Property LatencyMS -Maximum).Maximum
                 $regionResult.Minimum = ($interationTimes | Measure-Object -Property LatencyMS -Minimum).Minimum
@@ -144,7 +143,8 @@ function Test-AzRegionLatency {
                 $regionResult.RawResults = $interationTimes
                 [PSCustomObject]$regionResult
             } catch {
-                Write-Error -Message "Failed to test region [$testRegion]" -Exception $_
+                Write-Error -Message "Failed to test region [$testRegion]"
+                Write-Error $_
             } finally {
                 $regionsTested++
             }
