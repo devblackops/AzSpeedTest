@@ -135,18 +135,18 @@
     "TestUri": "https://azspeeda214ca91.blob.core.windows.net/speedtest/test.txt"
   },
   {
-    "Name": "azspeedb2e01b36",
+    "Name": "azspeedbaae52b0",
     "Location": "australiacentral",
-    "TestUri": "https://azspeedb2e01b36.blob.core.windows.net/speedtest/test.txt"
+    "TestUri": "https://azspeedbaae52b0.blob.core.windows.net/speedtest/test.txt"
   },
   {
-    "Name": "azspeed2a491d22",
+    "Name": "azspeedc4cd7f68",
     "Location": "uaenorth",
-    "TestUri": "https://azspeed2a491d22.blob.core.windows.net/speedtest/test.txt"
+    "TestUri": "https://azspeedc4cd7f68.blob.core.windows.net/speedtest/test.txt"
   },
   {
-    "Name": "azspeed79f64f9b",
+    "Name": "azspeed72475575",
     "Location": "southafricanorth",
-    "TestUri": "https://azspeed79f64f9b.blob.core.windows.net/speedtest/test.txt"
+    "TestUri": "https://azspeed72475575.blob.core.windows.net/speedtest/test.txt"
   }
 ]
