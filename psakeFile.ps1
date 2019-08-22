@@ -1,75 +1,69 @@
-properties {
-    $projectRoot = $ENV:BHProjectPath
-    if(-not $projectRoot) {
-        $projectRoot = $PSScriptRoot
-    }
+task default -depends test
 
-    $sut = Join-Path $projectRoot $env:BHProjectName
-    $tests = Join-Path $projectRoot Tests
+task Pester -FromModule PowerShellBuild -Version 0.3.1
 
-    $psVersion = $PSVersionTable.PSVersion.Major
-}
+task UpdateAzEndpoints {
+    $locations      = Get-AzLocation
+    $resourceGroups = Get-AzResourceGroup
 
-task default -depends Test
+    # These aren't working right now
+    $exclude = @(
+        'australiacentral2'
+        'uaecentral'
+        'southafricawest'
+        'germanywestcentral'
+        'francesouth'
+    )
 
-task Init {
-    "`nSTATUS: Testing with PowerShell $psVersion"
-    "Build System Details:"
-    Get-Item ENV:BH*
-} -description 'Initialize build environment'
+    $locations = $locations.Where({
+        $_.Location -notin $exclude
+    })
 
-task Test -Depends Init, Analyze, Pester -description 'Run test suite'
+    $storageEndpoints = Get-Content ./AzSpeedTest/Private/storageLocations.json | ConvertFrom-Json
 
-task Analyze -Depends Init {
-    $saResults = Invoke-ScriptAnalyzer -Path $sut -Severity Error -Recurse -Verbose:$false
-    if ($saResults) {
-        $saResults | Format-Table
-        Write-Error -Message 'One or more Script Analyzer errors/warnings where found. Build cannot continue!'
-    }
-} -description 'Run PSScriptAnalyzer'
+    foreach ($loc in $locations) {
+        $rgName = "storage-$($loc.Location)"
+        Write-Host "Setting up location [$rgName]"
 
-task Pester -Depends Init {
-    if(-not $ENV:BHProjectPath) {
-        Set-BuildEnvironment -Path $PSScriptRoot/..
-    }
-    Remove-Module $ENV:BHProjectName -ErrorAction SilentlyContinue
-    Import-Module (Join-Path $ENV:BHProjectPath $ENV:BHProjectName) -Force
+        if (-not ($rg = Get-AzResourceGroup -Name $rgName -ErrorAction SilentlyContinue)) {
+            $rg = New-AzResourceGroup -Name $rgName -Location $loc.Location -Verbose -Force
+        }
 
-    $testResultsPath = Join-Path $PSScriptRoot testResults.xml
-    $pesterParams = @{
-        Path         = './Tests'
-        OutputFile   = $testResultsPath
-        OutputFormat = 'NUnitXml'
-        PassThru     = $true
-        PesterOption = @{
-            IncludeVSCodeMarker = $true
+        $existingStorage = Get-AzStorageAccount -ResourceGroupName $rgName -ErrorAction SilentlyContinue
+        if (-not $existingStorage) {
+            $storageName = 'azspeed{0}' -f [guid]::NewGuid().ToString().Split('-')[0]
+        } else {
+            $storageName = $existingStorage.StorageAccountName
+        }
+
+        if (-not ($storageAcct = Get-AzStorageAccount -Name $storageName -ResourceGroupName $rg.ResourceGroupName -ErrorAction SilentlyContinue)) {
+            $storageParams = @{
+                Name                   = $storageName
+                ResourceGroupName      = $rg.ResourceGroupName
+                Location               = $loc.Location
+                SkuName                = 'Standard_LRS'
+                Kind                   = 'StorageV2'
+                EnableHttpsTrafficOnly = $true
+            }
+            $storageAcct = New-AzStorageAccount @storageParams -Verbose
+        }
+
+        if (-not ($container = Get-AzStorageContainer -Name speedtest -Context $storageAcct.Context -ErrorAction SilentlyContinue)) {
+            $container = New-AzStorageContainer -Name speedtest -Permission Container -Context $storageAcct.Context -Verbose
+        }
+
+        if (-not ($blob = Get-AzStorageBlob -Container speedtest -Blob test.txt -Context $container.Context -ErrorAction SilentlyContinue)) {
+            $blob = $container | Set-AzStorageBlobContent -File './test.txt' -Blob 'test.txt' -Force -Verbose
+        }
+
+        if (-not ($storageEndpoints.Where({$_.Name -eq $storageName}))) {
+            $storageEndpoints += [pscustomobject][ordered]@{
+                Name     = $storageName
+                Location = $loc.Location
+                TestUri  = 'https://{0}.blob.core.windows.net/speedtest/test.txt' -f $storageName
+            }
         }
     }
-    $testResults = Invoke-Pester @pesterParams
 
-    # Upload test artifacts to AppVeyor
-    if ($env:APPVEYOR_JOB_ID) {
-        $wc = New-Object 'System.Net.WebClient'
-        $wc.UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", $testResultsPath)
-    }
-
-    if ($testResults.FailedCount -gt 0) {
-        throw "$($testResults.FailedCount) tests failed!"
-    }
-
-} -description 'Run Pester tests'
-
-task ExportFunctions {
-    $functions = Get-ChildItem -Path (Join-Path $sut Public) -Filter '*.ps1' -File
-    Update-ModuleManifest -Path $env:BHPSModuleManifest -FunctionsToExport $functions.BaseName
-}
-
-task Publish -depends Test, ExportFunctions {
-    $version = (Import-PowerShellDataFile -Path $env:BHPSModuleManifest).ModuleVersion
-
-    assert {
-        -not (Find-Module -Name $env:BHProjectName -RequiredVersion $version -Repository PSGallery)
-    } -failureMessage "Version [$version] is already published to the gallery. Bump the version before publishing."
-
-    Publish-Module -Path $env:BHModulePath -NuGetApiKey $env:PSGalleryApiKey -Repository PSGallery -Verbose
+    $storageEndpoints | ConvertTo-Json | Out-File ./AzSpeedTest/Private/storageLocations.json -Encoding utf8
 }
