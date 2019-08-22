@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
-- Fix casing of public/private imports for cross-platform compatibility (via (@dannyt66)[https://github.com/dannyt66])
+- Fix casing of public/private imports for cross-platform compatibility (via [@dannyt66](https://github.com/dannyt66))
 
 ## [0.1.1] - 2018-05-15
 
