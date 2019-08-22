@@ -133,5 +133,20 @@
     "Name": "azspeeda214ca91",
     "Location": "westus2",
     "TestUri": "https://azspeeda214ca91.blob.core.windows.net/speedtest/test.txt"
+  },
+  {
+    "Name": "azspeedb2e01b36",
+    "Location": "australiacentral",
+    "TestUri": "https://azspeedb2e01b36.blob.core.windows.net/speedtest/test.txt"
+  },
+  {
+    "Name": "azspeed2a491d22",
+    "Location": "uaenorth",
+    "TestUri": "https://azspeed2a491d22.blob.core.windows.net/speedtest/test.txt"
+  },
+  {
+    "Name": "azspeed79f64f9b",
+    "Location": "southafricanorth",
+    "TestUri": "https://azspeed79f64f9b.blob.core.windows.net/speedtest/test.txt"
   }
 ]

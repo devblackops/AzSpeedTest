@@ -6,6 +6,7 @@ function Get-AzRegion {
     Return a list of Azure regions.
     .EXAMPLE
     PS C:\> Get-AzRegion
+    australiacentral
     australiaeast
     australiasoutheast
     brazilsouth
@@ -23,9 +24,11 @@ function Get-AzRegion {
     koreasouth
     northcentralus
     northeurope
+    southafricanorth
     southcentralus
     southeastasia
     southindia
+    uaenorth
     uksouth
     ukwest
     westcentralus
